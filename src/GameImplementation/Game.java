@@ -71,7 +71,11 @@ public class Game {
                     if (cardIndex == -1) { // -1 is default return if no cards are valid, so get new card
                         player.drawCard(drawPile);
                     } else {
+                        if (player.hand.cards.get(cardIndex).getValue().equals("8")) {
+                            // TODO have computer choose suit when playing an 8
+                        }
                         player.playCardFromHand(cardIndex,discardPile);
+
                         playedCard = true;
                     }
                 }

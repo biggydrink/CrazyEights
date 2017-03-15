@@ -44,9 +44,16 @@ public class GameInterface {
         return getPositiveIntInput(0,size)-1; // Subtract 1 to account for list counting from 0
     }
 
-    /** Called when player plays an 8 card. Rules allow player to choose whatever card suit they want to be valid next turn */
+    /**
+     * Called when player plays an 8 card. Rules allow player to choose whatever card suit they want to be valid next turn
+     * ascii art from https://gist.github.com/staringispolite/e504f207ce11bcc3b618
+     */
     protected String chooseSuit(Card card) {
-        System.out.println("Choose a new valid suit");
+        System.out.println("Crazy Eights!");
+        System.out.println("(•_•)");
+        System.out.println("( •_•)>⌐■-■");
+        System.out.println("(⌐■_■)");
+        System.out.println("Choose a new valid suit:");
         System.out.println("1: " + card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset() + "(Clubs)");
         System.out.println("2: " + card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset() + "(Diamonds");
         System.out.println("3: " + card.getColor("Spades") + card.getSuitIcon("Spades") + card.getANSI_reset() + "(Spades)");

@@ -12,7 +12,7 @@ public class StandardDeck extends Pile {
      * Populates deck with the standard 52 cards of Ace, 2-10, Jack, Queen, and King of Spades, Diamonds, Hearts, and Clubs
      * Using a method rather than putting this in the constructor so that a deck object can be re-populated later
      */
-    protected void populateStandardDeck() {
+    private void populateStandardDeck() {
 
         int deckSize = 52; // Standard 52 card deck
 
