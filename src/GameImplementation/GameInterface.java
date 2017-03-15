@@ -1,6 +1,5 @@
 package GameImplementation;
 
-
 import java.util.Scanner;
 
 /** Handles all user inputs for Crazy Eights. */
@@ -48,16 +47,16 @@ public class GameInterface {
     /** Called when player plays an 8 card. Rules allow player to choose whatever card suit they want to be valid next turn */
     protected String chooseSuit(Card card) {
         System.out.println("Choose a new valid suit");
-        System.out.println("1: Clubs");
-        System.out.println("2: Diamonds");
-        System.out.println("3: Spades");
-        System.out.println("4: Hearts");
+        System.out.println("1: " + card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset() + "(Clubs)");
+        System.out.println("2: " + card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset() + "(Diamonds");
+        System.out.println("3: " + card.getColor("Spades") + card.getSuitIcon("Spades") + card.getANSI_reset() + "(Spades)");
+        System.out.println("4: " + card.getColor("Hearts") + card.getSuitIcon("Hearts") + card.getANSI_reset() + "(Hearts)");
         int selection = getPositiveIntInput(1,4);
         switch (selection) {
-            case 1: return "Clubs";
-            case 2: return "Diamonds";
-            case 3: return "Spades";
-            case 4: return "Hearts";
+            case 1: return card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset();
+            case 2: return card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset();
+            case 3: return card.getColor("Spades") + card.getSuitIcon("Spades") + card.getANSI_reset();
+            case 4: return card.getColor("Hearts") + card.getSuitIcon("Hearts") + card.getANSI_reset();
             default: return card.getSuit();
         }
     }

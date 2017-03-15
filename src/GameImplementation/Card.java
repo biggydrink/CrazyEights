@@ -18,14 +18,14 @@ public class Card {
     // Constructor
     public Card(String suit, String value) {
         this.suit = suit;
-        this.suitIcon = setSuitIcon(suit);
+        this.suitIcon = getSuitIcon(suit);
         this.value = value;
         this.ANSI_reset = "\u001B[0m";
 
     }
 
     // Getters and setters
-    protected char setSuitIcon(String suit) {
+    protected char getSuitIcon(String suit) {
         switch(suit) {
             case "Spades": return 9824;
             case "Hearts": return 9828;
@@ -34,13 +34,17 @@ public class Card {
             default: return 0; // 0 if using a non-standard suit
         }
     }
+    protected char getSuitIcon() {
+        return this.suitIcon;
+    }
     protected String getSuit() { return suit; }
     protected void setSuit(String suit) {
         this.suit = suit;
-        this.suitIcon = setSuitIcon(suit);
+        this.suitIcon = getSuitIcon(suit);
     }
     protected String getValue() { return value; }
     protected void setValue(String value) { this.value = value; }
+    protected String getANSI_reset() { return ANSI_reset; }
 
     /**
      * Prints card with red/black colors, format "[suit icon][value]"
@@ -62,13 +66,32 @@ public class Card {
      *  Black: \u001B[30m
      *  Red: \u001B[31m
      */
-    private String getColor() {
+    protected String getColor() {
         String ANSI_red = "\u001B[31m";
         String ANSI_black = "\u001B[30m";
 
         if (this.suit.equalsIgnoreCase("spades") || this.suit.equalsIgnoreCase("clubs")) {
             return ANSI_black;
         } else if (this.suit.equalsIgnoreCase("hearts") || this.suit.equalsIgnoreCase("diamonds")) {
+            return ANSI_red;
+        }
+        return "";
+    }
+
+    /**
+     * Overloaded getColor that allows user to specify suit
+     * @param suit One of the four card suits - spades, clubs, hearts, or diamonds
+     * @return String value of ANSI colors red or black.
+     *  Black: \u001B[30m
+     *  Red: \u001B[31m
+     */
+    protected String getColor(String suit) {
+        String ANSI_red = "\u001B[31m";
+        String ANSI_black = "\u001B[30m";
+
+        if (suit.equalsIgnoreCase("spades") || suit.equalsIgnoreCase("clubs")) {
+            return ANSI_black;
+        } else if (suit.equalsIgnoreCase("hearts") || suit.equalsIgnoreCase("diamonds")) {
             return ANSI_red;
         }
         return "";
