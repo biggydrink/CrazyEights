@@ -65,6 +65,7 @@ public class Player {
         }
     }
 
+    // TODO move automateChooseCard to Game class, and use determineCardValue (card value should be determined by Game, not Player)
     /**
      * Computer AI for determining which card in hand to play on a turn. If multiple options, plays the highest value.
      *

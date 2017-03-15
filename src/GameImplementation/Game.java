@@ -184,4 +184,22 @@ public class Game {
         return false;
     }
 
+    /**
+     * Returns integer values for Crazy Eights cards
+     * @param card any standard card
+     * @return returns value of card as an int. Cards 2-9 have same int values; face cards are 10; aces are 1
+     */
+    public int determineCardIntValue(Card card) {
+        int value;
+        // Handle face cards - Ace is 1, other face cards are 10
+        switch (card.getValue()) {
+            case "Jack":
+            case "Queen":
+            case "King": value = 10; break;
+            case "Ace": value = 1; break;
+            default: value = Integer.parseInt(card.getValue()); break;
+        }
+        return value;
+    }
+
 }
