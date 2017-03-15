@@ -70,6 +70,8 @@ public class Game {
                     cardIndex = player.automateChooseCard(discardPile.seeTopCard());
                     if (cardIndex == -1) { // -1 is default return if no cards are valid, so get new card
                         player.drawCard(drawPile);
+                        // TODO fix infinite loop here - if computer has no playable cards, and then exhausts the deck
+                        // but draws no playable cards, drawcard fails but we can't exit the while loop (cardIndex never changes)
                     } else {
                         if (player.hand.cards.get(cardIndex).getValue().equals("8")) {
                             // TODO have computer choose suit when playing an 8

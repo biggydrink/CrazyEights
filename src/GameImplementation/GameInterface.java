@@ -53,7 +53,7 @@ public class GameInterface {
         System.out.println("(•_•)");
         System.out.println("( •_•)>⌐■-■");
         System.out.println("(⌐■_■)");
-        System.out.println("Choose a new valid suit:");
+        System.out.println("Choose a new suit:");
         System.out.println("1: " + card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset() + "(Clubs)");
         System.out.println("2: " + card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset() + "(Diamonds");
         System.out.println("3: " + card.getColor("Spades") + card.getSuitIcon("Spades") + card.getANSI_reset() + "(Spades)");
