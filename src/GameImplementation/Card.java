@@ -60,7 +60,7 @@ public class Card {
     }
 
     /**
-     * Returns the value for ANSI black or ANSI red, depending on the card's suit. If invalid suit, empty string is
+     * Returns the value for ANSI black or ANSI red, depending on this card's suit. If invalid suit, empty string is
      * returned.
      * @return String value of ANSI colors red or black.
      *  Black: \u001B[30m

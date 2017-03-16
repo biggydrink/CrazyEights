@@ -58,30 +58,34 @@ public class Game {
     private void takeTurn(Player player) {
         boolean playedCard = false;
         while (!playedCard) {
-            if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
-                // This is inside the loop and not outside, in case a player's hand is unplayable, and all remaining
-                // cards in the deck are also unplayable
-                System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
-                break;
-            }
             if (player.getName().equalsIgnoreCase("Computer")) { // Computer player is always named "Computer"
                 int cardIndex = -1;
                 while (cardIndex < 0) {
                     cardIndex = player.automateChooseCard(discardPile.seeTopCard());
                     if (cardIndex == -1) { // -1 is default return if no cards are valid, so get new card
-                        player.drawCard(drawPile);
-                        // TODO fix infinite loop here - if computer has no playable cards, and then exhausts the deck
-                        // but draws no playable cards, drawcard fails but we can't exit the while loop (cardIndex never changes)
+                        /* this exact if statement is duplicated below. Without it, there could be a situation where
+                        we are stuck in the while (cardIndex < 0) loop (if both player and deck have no playable cards).
+                        There may be a more elegant way to accomplish this though (watchers?)
+                          */
+                        if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
+                            System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
+                            break;
+                        } else {
+                            player.drawCard(drawPile);
+                        }
                     } else {
                         if (player.hand.cards.get(cardIndex).getValue().equals("8")) {
                             // TODO have computer choose suit when playing an 8
                         }
                         player.playCardFromHand(cardIndex,discardPile);
-
                         playedCard = true;
                     }
                 }
             } else {
+                if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
+                    System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
+                    break;
+                }
                 int selection = gInterface.playOrDraw(player);
                 switch (selection) {
                     case 1:
@@ -114,9 +118,7 @@ public class Game {
                         System.out.println("Top card is " + discardPile.seeTopCard());
                 }
             }
-
         }
-
         ++playerManager.turnCounter;
     }
 

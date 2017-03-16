@@ -52,6 +52,7 @@ public class Player {
         }
     }
 
+    // TODO move tallyScore to Game class, and use determineCardValue (card value should be determined by Game, not Player)
     /** Add up score based on player hand. Ace is 1, face cards are 10, all other values are standard card values */
     protected void tallyScore() {
         for (Card card : hand.cards) {
@@ -66,6 +67,7 @@ public class Player {
     }
 
     // TODO move automateChooseCard to Game class, and use determineCardValue (card value should be determined by Game, not Player)
+    // for example, are ace's worth 1 or 10? And other games may use them differently as well
     /**
      * Computer AI for determining which card in hand to play on a turn. If multiple options, plays the highest value.
      *
