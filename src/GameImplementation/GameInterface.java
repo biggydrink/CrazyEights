@@ -60,10 +60,10 @@ public class GameInterface {
         System.out.println("4: " + card.getColor("Hearts") + card.getSuitIcon("Hearts") + card.getANSI_reset() + "(Hearts)");
         int selection = getPositiveIntInput(1,4);
         switch (selection) {
-            case 1: return card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset();
-            case 2: return card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset();
-            case 3: return card.getColor("Spades") + card.getSuitIcon("Spades") + card.getANSI_reset();
-            case 4: return card.getColor("Hearts") + card.getSuitIcon("Hearts") + card.getANSI_reset();
+            case 1: return "Clubs";
+            case 2: return "Diamonds";
+            case 3: return "Spades";
+            case 4: return "Hearts";
             default: return card.getSuit();
         }
     }

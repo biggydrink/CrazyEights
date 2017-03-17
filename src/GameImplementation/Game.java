@@ -61,7 +61,7 @@ public class Game {
             if (player.getName().equalsIgnoreCase("Computer")) { // Computer player is always named "Computer"
                 int cardIndex = -1;
                 while (cardIndex < 0) {
-                    cardIndex = player.automateChooseCard(discardPile.seeTopCard());
+                    cardIndex = automateChooseCard(player, discardPile.seeTopCard());
                     if (cardIndex == -1) { // -1 is default return if no cards are valid, so get new card
                         /* this exact if statement is duplicated below. Without it, there could be a situation where
                         we are stuck in the while (cardIndex < 0) loop (if both player and deck have no playable cards).
@@ -69,7 +69,9 @@ public class Game {
                           */
                         if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
                             System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
+                            playedCard = true;
                             break;
+                            // TODO this doesn't break all the way out of the while loop, must be fixed
                         } else {
                             player.drawCard(drawPile);
                         }
@@ -84,6 +86,7 @@ public class Game {
             } else {
                 if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
                     System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
+                    playedCard = true;
                     break;
                 }
                 int selection = gInterface.playOrDraw(player);
@@ -101,7 +104,7 @@ public class Game {
                                 // discard pile, and this is an easy and logical solution that works, and is visible
                                 // to both players
                                 String newSuit = gInterface.chooseSuit(selectedCard);
-                                System.out.println(player.getName() + " chooses " + newSuit);
+                                System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
                                 discardPile.addCard(new Card(newSuit,"8"));
                             }
                             playedCard = true;
@@ -202,6 +205,35 @@ public class Game {
             default: value = Integer.parseInt(card.getValue()); break;
         }
         return value;
+    }
+
+    /**
+     * Simple AI for determining which card in hand to play on a turn. If multiple options, plays the highest value.
+     *
+     * @param topCard current card being played on (must match suit or value, 8's are wild)
+     * @return int index of chosen card in hand
+     */
+    protected int automateChooseCard(Player player, Card topCard) {
+        LinkedList<Card> playableCards = new LinkedList<>();
+        for (Card card : player.hand.cards) {
+            if (isFairCard(card,topCard)) {
+                playableCards.add(card);
+            }
+        }
+        if (playableCards.size() > 0) {
+            int index = 0;
+            int maxValue = 0; // no cards have value 0, so will always go up
+            for (int i = 0; i < playableCards.size(); ++i) {
+                int value = determineCardIntValue(playableCards.get(i));
+
+                if (value > maxValue) {
+                    maxValue = value;
+                    index = i;
+                }
+            }
+            Card maxValueCard = playableCards.get(index);
+            return player.hand.cards.indexOf(maxValueCard);
+        } else return -1; // not a valid index, means no card was playable
     }
 
 }
