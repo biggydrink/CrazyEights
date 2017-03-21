@@ -25,26 +25,33 @@ public class Card {
     }
 
     // Getters and setters
-    protected char getSuitIcon(String suit) {
-        switch(suit) {
-            case "Spades": return 9824;
-            case "Hearts": return 9828;
-            case "Diamonds": return 9830;
-            case "Clubs": return 9827;
+
+    /**
+     * Returns ASCII code for card suits based on the suit string.
+     * Apparently can cause problems if used with non-ascii locales: http://stackoverflow.com/questions/16810663/how-to-use-equalsignorecase-for-multiple-elements-in-java
+     * @param suit card suit - valid for clubs, hearts, diamonds, spades. case insensitive
+     * @return char code for suit icon, or 0 if not a standard suit
+     */
+    public char getSuitIcon(String suit) {
+        switch(suit.toLowerCase()) {
+            case "spades": return 9824;
+            case "hearts": return 9828;
+            case "diamonds": return 9830;
+            case "clubs": return 9827;
             default: return 0; // 0 if using a non-standard suit
         }
     }
-    protected char getSuitIcon() {
+    public char getSuitIcon() {
         return this.suitIcon;
     }
-    protected String getSuit() { return suit; }
-    protected void setSuit(String suit) {
+    public String getSuit() { return suit; }
+    public void setSuit(String suit) {
         this.suit = suit;
         this.suitIcon = getSuitIcon(suit);
     }
-    protected String getValue() { return value; }
-    protected void setValue(String value) { this.value = value; }
-    protected String getANSI_reset() { return ANSI_reset; }
+    public String getValue() { return value; }
+    public void setValue(String value) { this.value = value; }
+    public String getANSI_reset() { return ANSI_reset; }
 
     /**
      * Prints card with red/black colors, format "[suit icon][value]"
@@ -66,7 +73,7 @@ public class Card {
      *  Black: \u001B[30m
      *  Red: \u001B[31m
      */
-    protected String getColor() {
+    public String getColor() {
         String ANSI_red = "\u001B[31m";
         String ANSI_black = "\u001B[30m";
 
@@ -85,7 +92,7 @@ public class Card {
      *  Black: \u001B[30m
      *  Red: \u001B[31m
      */
-    protected String getColor(String suit) {
+    public String getColor(String suit) {
         String ANSI_red = "\u001B[31m";
         String ANSI_black = "\u001B[30m";
 
