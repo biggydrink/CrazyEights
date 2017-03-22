@@ -20,7 +20,6 @@ public class Pile {
         cards = new LinkedList<Card>(); // Used as a stack
     }
 
-
     public LinkedList<Card> getCards() { return cards; }
     public void removeCard(Card card) { cards.remove(card); }
 
@@ -40,13 +39,26 @@ public class Pile {
     public void addCard(Card card) {
         cards.push(card); // put on top
     }
-    /** Looks at top card of deck */
+
+    /**
+     * Looks at top card of pile (returns the card, but it also remains in the pile)
+     * @return card on top of pile (stack), or null if empty
+     */
     public Card seeTopCard() {
         return cards.peek();
     }
-    /** Draws the top card of the deck */
+
+    /**
+     * Draws the top card of the pile (returns the card and removes it from the pile)
+     * @return card on top of pile (stack), or null if empty
+     */
     public Card drawTopCard() {
-        return cards.pop();
+        if (this.getCurrentSize() != 0) {
+            return cards.pop();
+        } else {
+            return null;
+        }
+
     }
 
     /** Removes all cards from pile */
