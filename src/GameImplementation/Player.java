@@ -16,7 +16,7 @@ public class Player {
 
     protected Pile hand;
     protected String name;
-    private int score;
+    protected int score;
 
     // Constructor
     public Player(String name) {
@@ -54,6 +54,7 @@ public class Player {
 
     // TODO move tallyScore to Game class, and use determineCardValue (card value should be determined by Game, not Player)
     /** Add up score based on player hand. Ace is 1, face cards are 10, all other values are standard card values */
+    /*
     protected void tallyScore() {
         for (Card card : hand.cards) {
             if (card.getValue().equalsIgnoreCase("Ace")) {
@@ -65,7 +66,7 @@ public class Player {
             }
         }
     }
-
+    */
 
 
 }

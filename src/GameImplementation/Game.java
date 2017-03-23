@@ -43,7 +43,9 @@ public class Game {
             takeTurn(playerManager.whoseTurn());
         }
         for (Player player : playerManager.playerList) {
-            player.tallyScore();
+            // allowing this method to access player.score directly, so that it is obvious this is a += (cumulative)
+            // operation
+            player.score += tallyScore(player);
         }
     }
 
@@ -234,6 +236,21 @@ public class Game {
             Card maxValueCard = playableCards.get(index);
             return player.hand.cards.indexOf(maxValueCard);
         } else return -1; // not a valid index, means no card was playable
+    }
+
+    /**
+     * Add up game value of cards in player's hand.
+     * @param player player whose hand we are evaluating
+     * @return total sum of player's hand card values
+     */
+    protected int tallyScore(Player player) {
+        int score = 0;
+
+        for (Card card : player.hand.cards) {
+            score += determineCardIntValue(card);
+        }
+
+        return score;
     }
 
 }
