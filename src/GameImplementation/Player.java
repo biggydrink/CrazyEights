@@ -52,21 +52,4 @@ public class Player {
         }
     }
 
-    // TODO move tallyScore to Game class, and use determineCardValue (card value should be determined by Game, not Player)
-    /** Add up score based on player hand. Ace is 1, face cards are 10, all other values are standard card values */
-    /*
-    protected void tallyScore() {
-        for (Card card : hand.cards) {
-            if (card.getValue().equalsIgnoreCase("Ace")) {
-                score += 1;
-            } else if (card.getValue().equalsIgnoreCase("Queen") || card.getValue().equalsIgnoreCase("King") || card.getValue().equalsIgnoreCase("Jack")) {
-                score += 10;
-            } else {
-                score += Integer.parseInt(card.getValue());
-            }
-        }
-    }
-    */
-
-
 }
