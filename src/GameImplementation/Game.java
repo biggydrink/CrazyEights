@@ -74,12 +74,15 @@ public class Game {
                             playedCard = true;
                             break;
                             // TODO this doesn't break all the way out of the while loop, must be fixed
+                            // maybe just add these logic checks to the while loop?
                         } else {
                             player.drawCard(drawPile);
                         }
                     } else {
                         if (player.hand.cards.get(cardIndex).getValue().equals("8")) {
                             // TODO have computer choose suit when playing an 8
+                            // TODO after computer choosing suit on playing 8 is implemented, change value of 8's for computer's automate choose card so that 8's are held in reserve
+
                         }
                         player.playCardFromHand(cardIndex,discardPile);
                         playedCard = true;
@@ -124,7 +127,7 @@ public class Game {
                 }
             }
         }
-        ++playerManager.turnCounter;
+        playerManager.incrementTurn();
     }
 
     /**

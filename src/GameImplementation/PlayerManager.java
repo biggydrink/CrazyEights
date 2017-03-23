@@ -6,11 +6,17 @@ import java.util.LinkedList;
 public class PlayerManager {
 
     protected LinkedList<Player> playerList;
-    int turnCounter;
+    private int turnCounter;
 
     public PlayerManager(LinkedList<Player> playerList) {
         this.playerList = playerList;
         turnCounter = 0;
+    }
+
+    protected int incrementTurn() {
+        ++turnCounter;
+
+        return turnCounter;
     }
 
     /** Manages turns. Alternates between however many players there are */
