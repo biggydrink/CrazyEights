@@ -46,13 +46,9 @@ public class GameInterface {
 
     /**
      * Called when player plays an 8 card. Rules allow player to choose whatever card suit they want to be valid next turn
-     * ascii art from https://gist.github.com/staringispolite/e504f207ce11bcc3b618
      */
     protected String chooseSuit(Card card) {
-        System.out.println("Crazy Eights!");
-        System.out.println("(•_•)");
-        System.out.println("( •_•)>⌐■-■");
-        System.out.println("(⌐■_■)");
+        displayCrazyEightsMessage();
         System.out.println("Choose a new suit:");
         System.out.println("1: " + card.getColor("Clubs") + card.getSuitIcon("Clubs") + card.getANSI_reset() + "(Clubs)");
         System.out.println("2: " + card.getColor("Diamonds") + card.getSuitIcon("Diamonds") + card.getANSI_reset() + "(Diamonds");
@@ -66,6 +62,17 @@ public class GameInterface {
             case 4: return "Hearts";
             default: return card.getSuit();
         }
+    }
+
+    /**
+     * Displayed whenever someone plays an 8 - it's a guy putting on some cool sunglasses
+     * ascii art from https://gist.github.com/staringispolite/e504f207ce11bcc3b618
+     */
+    public void displayCrazyEightsMessage() {
+        System.out.println("Crazy Eights!");
+        System.out.println("(•_•)");
+        System.out.println("( •_•)>⌐■-■");
+        System.out.println("(⌐■_■)");
     }
 
     /** Get a player's name. Can't use "Computer", since that is reserved for the AI player */

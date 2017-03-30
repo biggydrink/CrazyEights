@@ -2,6 +2,7 @@ package GameImplementation;
 
 import java.util.LinkedList;
 
+// TODO could be fun to track how many points each player played (got rid of) in a game
 
 public class Game {
 
@@ -79,13 +80,19 @@ public class Game {
                             player.drawCard(drawPile);
                         }
                     } else {
-                        if (player.hand.cards.get(cardIndex).getValue().equals("8")) {
-                            // TODO have computer choose suit when playing an 8
+                        Card selectedCard = player.hand.cards.get(cardIndex);
+
+                        player.playCardFromHand(cardIndex,discardPile);
+                        playedCard = true;
+                        if (selectedCard.getValue().equals("8")) {
+                            gInterface.displayCrazyEightsMessage();
+                            String newSuit = automateChooseSuit(player);
+                            System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
+                            discardPile.addCard(new Card(newSuit,"8"));
+
                             // TODO after computer choosing suit on playing 8 is implemented, change value of 8's for computer's automate choose card so that 8's are held in reserve
 
                         }
-                        player.playCardFromHand(cardIndex,discardPile);
-                        playedCard = true;
                     }
                 }
             } else {
@@ -239,6 +246,46 @@ public class Game {
             Card maxValueCard = playableCards.get(index);
             return player.hand.cards.indexOf(maxValueCard);
         } else return -1; // not a valid index, means no card was playable
+    }
+
+    protected String automateChooseSuit(Player player) {
+
+        // order is Hearts, Spades, Clubs, Diamonds
+        int sumPoints[] = new int[4];
+        String suits[] = new String[4];
+        suits[0] = "Hearts";
+        suits[1] = "Spades";
+        suits[2] = "Clubs";
+        suits[3] = "Diamonds";
+        int index = 0;
+
+        for (Card card : player.hand.cards) {
+            switch (card.getSuit()) {
+                case "Hearts":
+                    sumPoints[0] += determineCardIntValue(card);
+                    break;
+                case "Spades":
+                    sumPoints[1] += determineCardIntValue(card);
+                    break;
+                case "Clubs":
+                    sumPoints[2] += determineCardIntValue(card);
+                    break;
+                case "Diamonds":
+                    sumPoints[3] += determineCardIntValue(card);
+                    break;
+            }
+        }
+
+        int max = -1;
+        for (int i = 0; i < sumPoints.length; ++i) {
+            if (sumPoints[i] > max) {
+                max = sumPoints[i];
+                index = i;
+            }
+        }
+
+        return suits[index];
+
     }
 
     /**
