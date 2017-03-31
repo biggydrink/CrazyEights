@@ -127,10 +127,12 @@ public class Game {
                     case 2:
                         // Draw a card
                         player.drawCard(drawPile);
+                        // Show top card for reference
+                        gInterface.displayTopCard(discardPile);
                         break;
                     case 3:
                         // View top card
-                        System.out.println("Top card is " + discardPile.seeTopCard());
+                        gInterface.displayTopCard(discardPile);
                 }
             }
         }

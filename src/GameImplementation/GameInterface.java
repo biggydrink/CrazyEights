@@ -26,6 +26,11 @@ public class GameInterface {
         return getPositiveIntInput(1,3);
     }
 
+    /** Prints top card of given Pile **/
+    protected void displayTopCard(Pile pile) {
+        System.out.println("Top card is " + pile.seeTopCard());
+    }
+
     /**
      * Displays cards in hand and gets choice from player
      * Displayed list of hand starts with 1, since this is more normal for most people. But this means that we have

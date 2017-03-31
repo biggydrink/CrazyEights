@@ -8,12 +8,12 @@ public class PlayerManager {
     protected LinkedList<Player> playerList;
     private int turnCounter;
 
-    public PlayerManager(LinkedList<Player> playerList) {
+    protected PlayerManager(LinkedList<Player> playerList) {
         this.playerList = playerList;
         turnCounter = 0;
     }
 
-    protected int incrementTurn() {
+    public int incrementTurn() {
         ++turnCounter;
 
         return turnCounter;
