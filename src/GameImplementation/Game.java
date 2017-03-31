@@ -40,13 +40,18 @@ public class Game {
      * After an individual game has ended, player scores are added up.
      */
     public void playGame() {
+        // Set player scores to 0
+        for (Player player : playerManager.playerList) {
+            player.resetIndividualGameScores();
+        }
+        // Play the game
         while (!isWinner(playerManager.playerList)) {
             takeTurn(playerManager.whoseTurn());
         }
+        // Tally scores/points
         for (Player player : playerManager.playerList) {
-            // allowing this method to access player.score directly, so that it is obvious this is a += (cumulative)
-            // operation
-            player.score += tallyScore(player);
+            tallyScore(player);
+            player.updateTotalScores();
         }
     }
 
@@ -76,6 +81,7 @@ public class Game {
                             break;
                             // TODO this doesn't break all the way out of the while loop, must be fixed
                             // maybe just add these logic checks to the while loop?
+                            // might be good idea to add some integration tests to be able to verify this fix
                         } else {
                             player.drawCard(drawPile);
                         }
@@ -83,6 +89,8 @@ public class Game {
                         Card selectedCard = player.hand.cards.get(cardIndex);
 
                         player.playCardFromHand(cardIndex,discardPile);
+                        player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
+                        player.addCardsPlayedThisGame(1);
                         playedCard = true;
                         if (selectedCard.getValue().equals("8")) {
                             gInterface.displayCrazyEightsMessage();
@@ -107,6 +115,8 @@ public class Game {
                         Card selectedCard = player.hand.cards.get(selection);
                         if (isFairCard(selectedCard, discardPile.seeTopCard())) {
                             player.playCardFromHand(selection,discardPile);
+                            player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
+                            player.addCardsPlayedThisGame(1);
                             if (selectedCard.getValue().equals("8")) {
                                 // Rules state you get to choose whatever suit you want to be the suit the next player has
                                 // to match. Chose to go this way since there's no harm in having extra cards in the
@@ -292,14 +302,11 @@ public class Game {
      * @param player player whose hand we are evaluating
      * @return total sum of player's hand card values
      */
-    protected int tallyScore(Player player) {
-        int score = 0;
-
+    protected void tallyScore(Player player) {
         for (Card card : player.hand.cards) {
-            score += determineCardIntValue(card);
+            player.scoreThisGame += determineCardIntValue(card);
         }
 
-        return score;
     }
 
 }
