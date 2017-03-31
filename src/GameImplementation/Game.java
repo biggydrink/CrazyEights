@@ -56,7 +56,7 @@ public class Game {
      * Choosing a card is handled by the interface, which returns an int index, which is then used to determine which
      * card in a player's hand to play. For the computer, this means we only need to get the index, and can use the
      * same method for computer or human players to actually play the card.
-     * @param player
+     * @param player player who takes the next turn
      */
     private void takeTurn(Player player) {
         boolean playedCard = false;
@@ -89,9 +89,6 @@ public class Game {
                             String newSuit = automateChooseSuit(player);
                             System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
                             discardPile.addCard(new Card(newSuit,"8"));
-
-                            // TODO after computer choosing suit on playing 8 is implemented, change value of 8's for computer's automate choose card so that 8's are held in reserve
-
                         }
                     }
                 }
@@ -239,7 +236,7 @@ public class Game {
             int maxValue = 0; // no cards have value 0, so will always go up
             for (int i = 0; i < playableCards.size(); ++i) {
                 int value = determineCardIntValue(playableCards.get(i));
-
+                if (value == 8) { value = 1;} // devalue 8's, since they are best when played as the last of a suit
                 if (value > maxValue) {
                     maxValue = value;
                     index = i;
