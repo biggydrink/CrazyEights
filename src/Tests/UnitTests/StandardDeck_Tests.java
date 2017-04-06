@@ -12,7 +12,7 @@ public class StandardDeck_Tests {
     public void testPopulateStandardDeck() {
 
         // Given
-        Pile testPile = new Pile(); // test still fails if StandardDeck class used here instead of Pile
+        Pile testPile = new Pile();
         StandardDeck populatedDeck = new StandardDeck();
 
         // Diamonds
@@ -146,14 +146,28 @@ public class StandardDeck_Tests {
         where these white spaces are coming from.
         Maybe need to look further into LinkedList class to see if there's something I could be missing about
         the add() method
+
+        Update
+        Tests now pass. Previously, by using Assert.assertEquals, we were essentially calling Object.equals()
+        which will just run a reference check (obj1 == obj2), which will not pass since these are both separate objects.
+        The new tests just verify that all the data in the two cards are the same, which is what we really want to
+        verify here.
+
+        Help from the following two StackOverflow questions:
+        http://stackoverflow.com/questions/16069106/how-to-compare-two-java-objects?noredirect=1&lq=1 (see Daniel Kaplan's answer)
+        http://stackoverflow.com/questions/27605714/test-two-instances-of-object-are-equal-junit (for why we did not override the equals() method)
          */
 
-        //Assert.assertEquals(populatedDeck.getCards(),testPile.getCards());
-        //Assert.assertEquals(populatedDeck.getCurrentSize(),testPile.getCurrentSize()); // this test passes
 
         for (int i = 0; i < testPile.getCurrentSize(); ++i) {
-            Assert.assertEquals(populatedDeck.drawTopCard(),testPile.drawTopCard());
-        }
+            Card topPile = testPile.drawTopCard();
+            Card topStandard = populatedDeck.drawTopCard();
 
+            Assert.assertEquals(topPile.getSuitIcon(),topStandard.getSuitIcon());
+            Assert.assertEquals(topPile.getSuit(),topStandard.getSuit());
+            Assert.assertEquals(topPile.getValue(),topStandard.getValue());
+            Assert.assertEquals(topPile.getANSI_reset(),topStandard.getANSI_reset());
+
+        }
     }
 }

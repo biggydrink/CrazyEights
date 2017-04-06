@@ -2,8 +2,6 @@ package GameImplementation;
 
 import java.util.LinkedList;
 
-// TODO could be fun to track how many points each player played (got rid of) in a game
-
 public class Game {
 
     protected GameInterface gInterface;
