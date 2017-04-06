@@ -18,11 +18,9 @@ public class GameManager {
 
 
         boolean play = true;
-        int gamesPlayed = 0;
         while (play) {
             Game game = new Game(playerList,gInterface);
             game.playGame();
-            gamesPlayed++;
             System.out.println("Good game!");
             readPlayerScores(playerList);
             System.out.println("Play again?");

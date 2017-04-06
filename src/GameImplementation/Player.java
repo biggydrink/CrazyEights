@@ -61,7 +61,7 @@ public class Player {
 
     /* Get a new card from any pile */
     protected void drawCard(Pile deck) {
-        if (!deck.cards.isEmpty()) {
+        if (!deck.isEmpty()) {
             Card card = deck.drawTopCard();
             hand.cards.add(card);
             if (!name.equals("Computer")) {

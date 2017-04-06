@@ -19,7 +19,6 @@ public class Pile {
     public Pile() {
         cards = new LinkedList<Card>(); // Used as a stack
     }
-
     public LinkedList<Card> getCards() { return cards; }
     public void removeCard(Card card) { cards.remove(card); }
 
@@ -53,7 +52,7 @@ public class Pile {
      * @return card on top of pile (stack), or null if empty
      */
     public Card drawTopCard() {
-        if (this.getCurrentSize() != 0) {
+        if (!this.isEmpty()) {
             return cards.pop();
         } else {
             return null;
@@ -68,6 +67,11 @@ public class Pile {
         cards.clear();
 
         return allCards;
+    }
+
+    /** Checks if the pile is empty */
+    public boolean isEmpty() {
+        return getCurrentSize() == 0;
     }
 
     /** Shuffles deck using current cards */

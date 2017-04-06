@@ -24,7 +24,6 @@ public class Game {
         // Set top card of discard pile
         discardPile.addCard(drawPile.drawTopCard());
         System.out.println("Starting card is " + discardPile.seeTopCard());
-        // drawPile.empty(); // un-comment to quickly test winning before a player's hand is empty
         while ((discardPile.seeTopCard()).getValue().equals("8")) {
             System.out.println("Drawing again");
             discardPile.addCard(drawPile.drawTopCard());
@@ -63,81 +62,71 @@ public class Game {
      */
     private void takeTurn(Player player) {
         boolean playedCard = false;
+        int cardIndex;
+
         while (!playedCard) {
             if (player.getName().equalsIgnoreCase("Computer")) { // Computer player is always named "Computer"
-                int cardIndex = -1;
-                while (cardIndex < 0) {
+                if (playerCanPlay(player)) {
                     cardIndex = automateChooseCard(player, discardPile.seeTopCard());
-                    if (cardIndex == -1) { // -1 is default return if no cards are valid, so get new card
-                        /* this exact if statement is duplicated below. Without it, there could be a situation where
-                        we are stuck in the while (cardIndex < 0) loop (if both player and deck have no playable cards).
-                        There may be a more elegant way to accomplish this though (watchers?)
-                          */
-                        if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
-                            System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
-                            playedCard = true;
-                            break;
-                            // TODO this doesn't break all the way out of the while loop, must be fixed
-                            // maybe just add these logic checks to the while loop?
-                            // might be good idea to add some integration tests to be able to verify this fix
-                        } else {
-                            player.drawCard(drawPile);
-                        }
-                    } else {
-                        Card selectedCard = player.hand.cards.get(cardIndex);
-
-                        player.playCardFromHand(cardIndex,discardPile);
-                        player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
-                        player.addCardsPlayedThisGame(1);
-                        playedCard = true;
-                        if (selectedCard.getValue().equals("8")) {
-                            gInterface.displayCrazyEightsMessage();
-                            String newSuit = automateChooseSuit(player);
-                            System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
-                            discardPile.addCard(new Card(newSuit,"8"));
-                        }
+                    Card selectedCard = player.hand.cards.get(cardIndex);
+                    player.playCardFromHand(cardIndex,discardPile);
+                    player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
+                    player.addCardsPlayedThisGame(1);
+                    playedCard = true;
+                    if (selectedCard.getValue().equals("8")) {
+                        gInterface.displayCrazyEightsMessage();
+                        String newSuit = automateChooseSuit(player);
+                        System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
+                        discardPile.addCard(new Card(newSuit,"8"));
                     }
-                }
-            } else {
-                if (!playerCanPlay(player) && drawPile.cards.isEmpty()) {
+                } else
+                    if (!drawPile.isEmpty()) {
+                        player.drawCard(drawPile);
+                    } else {
+                        System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
+                        playedCard = true;
+                    }
+            } else { // player is human
+                if (!playerCanPlay(player) && drawPile.isEmpty()) {
                     System.out.println("Draw pile is empty and " + player.getName() + " has no playable cards - ending turn");
                     playedCard = true;
-                    break;
-                }
-                int selection = gInterface.playOrDraw(player);
-                switch (selection) {
-                    case 1:
-                        // Play a card from hand
-                        selection = gInterface.chooseFromHand(player);
-                        if (selection == -1) break; // 0 selects "Back", but returned int is 1 less
-                        Card selectedCard = player.hand.cards.get(selection);
-                        if (isFairCard(selectedCard, discardPile.seeTopCard())) {
-                            player.playCardFromHand(selection,discardPile);
-                            player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
-                            player.addCardsPlayedThisGame(1);
-                            if (selectedCard.getValue().equals("8")) {
-                                // Rules state you get to choose whatever suit you want to be the suit the next player has
-                                // to match. Chose to go this way since there's no harm in having extra cards in the
-                                // discard pile, and this is an easy and logical solution that works, and is visible
-                                // to both players
-                                String newSuit = gInterface.chooseSuit(selectedCard);
-                                System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
-                                discardPile.addCard(new Card(newSuit,"8"));
+                    // break;
+                } else {
+                    int selection = gInterface.playOrDraw(player);
+                    switch (selection) {
+                        case 1:
+                            // Play a card from hand
+                            selection = gInterface.chooseFromHand(player);
+                            if (selection == -1) break; // 0 selects "Back", but returned int is 1 less
+                            Card selectedCard = player.hand.cards.get(selection);
+                            if (isFairCard(selectedCard, discardPile.seeTopCard())) {
+                                player.playCardFromHand(selection,discardPile);
+                                player.addPointsPlayedThisGame(determineCardIntValue(selectedCard));
+                                player.addCardsPlayedThisGame(1);
+                                if (selectedCard.getValue().equals("8")) {
+                                    // Rules state you get to choose whatever suit you want to be the suit the next player has
+                                    // to match. Chose to go this way since there's no harm in having extra cards in the
+                                    // discard pile, and this is an easy and logical solution that works, and is visible
+                                    // to both players
+                                    String newSuit = gInterface.chooseSuit(selectedCard);
+                                    System.out.println(player.getName() + " chooses " + selectedCard.getColor(newSuit) + selectedCard.getSuitIcon(newSuit) + selectedCard.getANSI_reset());
+                                    discardPile.addCard(new Card(newSuit,"8"));
+                                }
+                                playedCard = true;
+                            } else {
+                                System.out.println(selectedCard + " is not a valid play on top of " + discardPile.seeTopCard());
                             }
-                            playedCard = true;
-                        } else {
-                            System.out.println(selectedCard + " is not a valid play on top of " + discardPile.seeTopCard());
-                        }
-                        break;
-                    case 2:
-                        // Draw a card
-                        player.drawCard(drawPile);
-                        // Show top card for reference
-                        gInterface.displayTopCard(discardPile);
-                        break;
-                    case 3:
-                        // View top card
-                        gInterface.displayTopCard(discardPile);
+                            break;
+                        case 2:
+                            // Draw a card
+                            player.drawCard(drawPile);
+                            // Show top card for reference
+                            gInterface.displayTopCard(discardPile);
+                            break;
+                        case 3:
+                            // View top card
+                            gInterface.displayTopCard(discardPile);
+                    }
                 }
             }
         }
@@ -155,12 +144,12 @@ public class Game {
         for (Player player : playerList) {
             // Order doesn't matter here, because this method is called before every turn, and only one player can
             // play cards from hand per turn
-            if (player.hand.cards.isEmpty()) {
+            if (player.hand.isEmpty()) {
                 return true;
             }
         }
         // Only get to this point if neither players hands are empty
-        if (drawPile.cards.isEmpty()) {
+        if (drawPile.isEmpty()) {
             // Cycle through players
             for (Player player : playerList) {
                 if (playerCanPlay(player)) {

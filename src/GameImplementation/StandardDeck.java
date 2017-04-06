@@ -17,7 +17,7 @@ public class StandardDeck extends Pile {
         int deckSize = 52; // Standard 52 card deck
 
         // Remove any cards currently in deck
-        while (! cards.isEmpty()) {
+        while (!this.isEmpty()) {
             cards.pop();
         }
 
